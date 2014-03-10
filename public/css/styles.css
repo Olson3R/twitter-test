@@ -1,0 +1,79 @@
+body {
+	font: 16px/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #787876;
+}
+
+h1, h3 {
+	font-weight: 300;
+	margin-bottom: 5px;
+}
+
+a {
+	text-decoration: none;
+	color: #EA6045;
+}
+
+a:hover {
+	color: #2F3440;
+}
+
+footer div.container {
+	margin-top: 30px;
+	border-top: 1px solid #EFEFEF;
+	padding-top: 10px;
+	font-style: italic;
+}
+
+#header_title {
+	float: left;
+}
+
+#header_user {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.error {
+	color: red;
+}
+
+.nav {
+	padding-left: 0;
+	border-bottom: 1px solid #EFEFEF;
+}
+
+.nav  li{
+	list-style-type: none;
+	display: inline;
+	padding: 0 4px 0 4px;
+}
+
+.tweet_list {
+	padding-left: 0;
+}
+
+.tweet_list li {
+	list-style-type: none;
+	border: 1px solid #999999;
+	background: #F0F0F0;
+	padding: 3px;
+	margin: 3px 0;
+}
+
+.tweet_list pre {
+	word-wrap: break-word;
+}
+
+@media (min-width: 600px){
+	.container {
+		width: 60%;
+	}
+}

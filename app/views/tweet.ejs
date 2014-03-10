@@ -1,0 +1,29 @@
+<% layout("templates/layout") %>
+
+<% // begin content %>
+<h3>Tweet Search</h3>
+<form action="/tweet" method="GET">
+	<input type="text" name="q" id="q" maxlength="300" value="<%= (typeof q != "undefined") ? q : "" %>"/>
+	<input type="submit" value="Search"/>
+</form>
+<%
+// make sure we have a search term
+if (typeof q != "undefined" && q.length > 0) { %>
+<%	if (typeof tweets != "undefined" && tweets.length > 0) { %>
+		<p>Showing <%= tweets.length %> <%= (tweets.length == 1)? "tweet" : "tweets" %> for <em><%= (typeof q != "undefined") ? q : "" %></em></p>
+		<ul class="tweet_list">
+<%		// iterate tweets
+		tweets.forEach(function(tweet) { %>
+			<li>
+				<a href="/user?screenName=<%= tweet.user.screen_name %>" title="Show user timeline">@<%= tweet.user.screen_name %></a>
+				<pre><%= tweet.text %></pre>
+			</li>
+<%		});%>
+		</ul>
+<%	} else if (typeof error != "undefined") { // error was encountered %>
+		<p><b class="error">Error:</b> <%= error %></p>
+<%	} else { // no tweets for search term %>
+		<p>No tweets found for <em><%= q %></em></p>
+<%	}
+} %>
+<% // end content %>

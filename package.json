@@ -1,0 +1,20 @@
+{
+  "name": "twitter-test",
+  "description": "Development project centered around interfacing with the Twitter API using Node.JS.",
+  "version": "0.0.1",
+  "private": true,
+  "main": "server.js",
+  "dependencies": {
+    "express": "^3.5.0",
+    "ejs": "^0.8.5",
+    "ejs-locals": "^1.0.2",
+    "passport": "^0.2.0",
+    "passport-twitter": "^1.0.2",
+    "passport-oauth": "^1.0.0",
+    "oauth": "^0.9.11",
+    "qs": "^0.6.6"
+  },
+  "engines": {
+    "node": "0.10.26"
+  }
+}

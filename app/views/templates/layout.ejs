@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title><%= title %></title>
+	<link rel="stylesheet" href="/public/css/styles.css">
+	<%- (typeof head_include != "undefined")? head_include : "" %>
+</head>
+<body>
+
+<header>
+	<div class="container">
+		<h1 id="header_title"><%= title %></h1>
+		<% if(typeof user != "undefined") { %>
+			<div id="header_user">Logged in as <%= user.displayName %> (<a href="/logout">Logout</a>)</div>
+		<% } %>
+		<div class="clear"></div>
+	</div>
+</header>
+
+<main role="main">
+	<div class="container">
+		<% if(typeof user != "undefined") { %>
+			<ul class="nav">
+				<li><a href="/tweet">Tweet Search</a></li>
+				<li><a href="/user">User Search</a></li>
+			</ul>
+		<% } %>
+
+		<%- body %>
+
+	</div>
+</main>
+
+<footer>
+	<div class="container">
+		<p>By Scott Olson</p>
+	</div>
+</footer>
+
+</body>
+</html>

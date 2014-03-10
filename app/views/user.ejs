@@ -1,0 +1,76 @@
+<% layout("templates/layout") %>
+
+<% // begin content %>
+<h3>User Search</h3>
+<form action="/user" method="GET">
+	<input type="text" name="screenName" id="screenName" maxlength="300" value="<%= (typeof screenName != "undefined") ? screenName : "" %>" onchange="document.getElementById('showMap').onclick = null;"/>
+	<input type="submit" value="Search"/><br/>
+	<input type="checkbox" <%- (showMap)? "checked=\"checked\"" : "" %> name="showMap" id="showMap" value="1" onclick="document.forms[0].submit();" /> Show map <small>(only tweets with geo coordinates will be shown)</small>
+</form>
+<%
+// make sure we have a search user
+if (typeof screenName != "undefined" && screenName.length > 0) {
+	// check if we have tweets
+	if (typeof tweets != "undefined" && tweets.length > 0) { %>
+		<p>Showing <%= tweets.length %> <%= (tweets.length == 1)? "tweet" : "tweets" %> from <em><%= (typeof screenName != "undefined") ? screenName : "" %></em></p>
+<%		// render tweets as a list (default) or a map
+		if (!showMap) { // render tweets as a list %>
+			<ul class="tweet_list">
+<%			// iterate tweets
+			tweets.forEach(function(tweet) { %>
+				<li>
+					<pre><%= tweet.text %></pre>
+				</li>
+<%			}); %>
+			</ul>
+<%		} else { // render tweets as a map %>
+			<div id="map" style="width:600px;height:400px;"></div>
+			<script type="text/javascript">
+				// tweet data
+				var tweets = [
+<%			tweets.forEach(function(tweet) { %>
+				{
+					text: "<%= tweet.text %>",
+					geo: [<%= tweet.geo.coordinates[0] %>, <%= tweet.geo.coordinates[1] %>]
+				},
+<%			}); %>
+					];
+
+				// add google map
+				var map = new google.maps.Map(document.getElementById("map"), {
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					});
+
+				var windowBounds = new google.maps.LatLngBounds(); // used to fit map viewport
+				var infoWindow = new google.maps.InfoWindow(); // marker info window
+				for (var i=0; i < tweets.length; i++) {
+					// add markers for tweets
+					var markerLatLng = new google.maps.LatLng(tweets[i].geo[0], tweets[i].geo[1]);
+					var marker = new google.maps.Marker({
+						position: markerLatLng,
+						map: map
+					});
+
+					// add click listener to show tweet text for clicked marker
+					google.maps.event.addListener(marker, 'click', (function(marker, i) {
+						return function() {
+							infoWindow.setContent(tweets[i].text);
+							infoWindow.open(map, marker);
+						}
+					})(marker, i));
+
+					// add tweet lat/lng to bounds
+					windowBounds.extend(markerLatLng);
+				}
+
+				// fit map viewport to tweets
+				map.fitBounds(windowBounds);
+			</script>
+<%		}
+	} else if (typeof error != "undefined") { // error was encountered %>
+		<p><b class="error">Error:</b> <%= error %></p>
+<%	} else { // no tweets for searched user %>
+		<p>No tweets found for <em><%= screenName %></em></p>
+<%	}
+} %>
+<% // end content %>
